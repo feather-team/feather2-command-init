@@ -27,7 +27,7 @@ exports.register = function(commander){
 		    feather.util.mkdir(_path);
 		    
 		    var options = arguments[arguments.length - 1];
-		    var conf = feather.util.read(__dirname + '/vendor/feather_conf.js');
+		    var conf = feather.util.read(__dirname + '/vendor/conf.js');
 
 		    ['name', 'modulename', 'charset'].forEach(function(name){
 		    	conf = conf.replace('${' + name + '}', options[name]);
