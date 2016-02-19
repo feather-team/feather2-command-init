@@ -33,8 +33,6 @@ exports.register = function(commander){
 		    	conf = conf.replace('${' + name + '}', options[name]);
 		    });
 
-		    conf = conf.replace('${cliname}', feather.cli.name);
-
 		    feather.util.write(_path + 'conf.js', conf);
 		    feather.util.mkdir(_path + 'page/' + options.modulename);
 		    feather.util.write(_path + 'index.' + feather.config.get('template.suffix'), 'welcome to ' + feather.cli.name);
