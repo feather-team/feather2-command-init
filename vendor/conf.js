@@ -1,7 +1,13 @@
 feather.config.merge({
 	project: {
-		name: '${name}',
-		modulename: '${modulename}',
-		charset: '${charset}'
-	}
+		name: '${project.name}',
+		modulename: '${project.modulename}',
+		charset: '${project.charset}'
+	},
+
+	template: {
+		suffix: '${template.suffix}'
+	},
+
+	statics: '${statics}'
 });
