@@ -41,6 +41,11 @@ exports.register = function(commander){
 					_default: 'utf-8'
 				},
 				{
+					name: 'project.mode',
+					desc: 'project mode',
+					_default: 'php'
+				},
+				{
 					name: 'template.suffix',
 					desc: 'template suffix:',
 					_default: 'html'
@@ -76,13 +81,19 @@ exports.register = function(commander){
 					    var modulename = config['project.modulename'];
 
 					    feather.util.write(_path + 'conf.js', conf);
+						feather.util.write(_path + 'pack.json', '{}');
+						feather.util.write(_path + 'rewrite.php', feather.util.read(__dirname + '/vendor/rewrite.php'));
 					    feather.util.mkdir(_path + 'page/' + modulename);
-					    feather.util.write(_path + 'index.' + config['template.suffix'], 'welcome to ' + feather.cli.name);
-					    feather.util.mkdir(_path + 'test');
+
+					    if(!modulename || modulename == 'common'){
+					    	feather.util.write(_path + 'index.' + config['template.suffix'], 'welcome to ' + feather.cli.name);
+					    	feather.util.write(_path + 'test/_global_.php', feather.util.read(__dirname + '/vendor/global.php'));
+					    }else{
+					    	feather.util.mkdir(_path + 'test');
+					    }
+					    
 					    feather.util.mkdir(_path + 'static/' + modulename);
-					    feather.util.mkdir(_path + 'static/' + modulename);
-					    feather.util.mkdir(_path + 'static/' + modulename);
-					    feather.util.mkdir(_path + 'components/' + modulename);
+					    feather.util.mkdir(_path + 'components');
 					    feather.util.mkdir(_path + 'widget/' + modulename);
 						rl.close();
 					}else{
