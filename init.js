@@ -1,13 +1,10 @@
 'use strict';
 
 exports.name = 'init';
-exports.usage = '[options] <path>'
+exports.usage = '<path>'
 exports.desc = 'auto create your project';
 exports.register = function(commander){
 	commander
-		.option('-n, --name [name]', 'project name', String, '_default')
-		.option('-m, --modulename [name]', 'project modulename', String, '')
-		.option('-c, --charset [value]', 'project charset', String, 'utf-8')
 		.action(function(){
 			var args = Array.prototype.slice.call(arguments);
 			var path = args.shift();
@@ -78,16 +75,17 @@ exports.register = function(commander){
 					    	conf = conf.replace('${' + i + '}', config[i]);
 					    }
 
-					    var modulename = config['project.modulename'];
+					    var modulename = config['project.modulename'], vendor = __dirname + '/vendor/';
 
 					    feather.util.write(_path + 'conf.js', conf);
 						feather.util.write(_path + 'pack.json', '{}');
-						feather.util.write(_path + 'rewrite.php', feather.util.read(__dirname + '/vendor/rewrite.php'));
+						feather.util.write(_path + 'rewrite.php', feather.util.read(vendor + 'rewrite.php'));
 					    feather.util.mkdir(_path + 'page/' + modulename);
 
 					    if(!modulename || modulename == 'common'){
-					    	feather.util.write(_path + 'index.' + config['template.suffix'], 'welcome to ' + feather.cli.name);
-					    	feather.util.write(_path + 'test/_global_.php', feather.util.read(__dirname + '/vendor/global.php'));
+					    	feather.util.write(_path + 'index.' + config['template.suffix'], feather.util.read(vendor + 'index.html'));
+					    	feather.util.write(_path + 'test/_global_.php', feather.util.read(vendor + 'global.php'));
+					    	feather.util.write(_path + 'test/index.php', feather.util.read(vendor + 'test.php'));
 					    }else{
 					    	feather.util.mkdir(_path + 'test');
 					    }
@@ -95,6 +93,8 @@ exports.register = function(commander){
 					    feather.util.mkdir(_path + 'static/' + modulename);
 					    feather.util.mkdir(_path + 'components');
 					    feather.util.mkdir(_path + 'widget/' + modulename);
+					    feather.util.write(_path + 'deploy/local.js', feather.util.read(vendor + 'deploy.js'));
+					    feather.util.write(_path + 'deploy/receiver.php', feather.util.read(vendor + 'receiver.php'));
 						rl.close();
 					}else{
 						configStep();
