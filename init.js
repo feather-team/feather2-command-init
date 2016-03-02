@@ -76,11 +76,10 @@ exports.register = function(commander){
 					    }
 
 					    var modulename = config['project.modulename'], vendor = __dirname + '/vendor/';
+					    var confPath = _path + 'conf/';
 
-					    feather.util.write(_path + 'conf.js', conf);
-						feather.util.write(_path + 'pack.json', '{}');
-						feather.util.write(_path + 'rewrite.php', feather.util.read(vendor + 'rewrite.php'));
-					    feather.util.mkdir(_path + 'page/' + modulename);
+					    feather.util.write(_path + 'feather-conf.js', conf);
+						feather.util.mkdir(_path + 'page/' + modulename);
 
 					    if(!modulename || modulename == 'common'){
 					    	feather.util.write(_path + 'index.' + config['template.suffix'], feather.util.read(vendor + 'index.html'));
@@ -93,8 +92,10 @@ exports.register = function(commander){
 					    feather.util.mkdir(_path + 'static/' + modulename);
 					    feather.util.mkdir(_path + 'components');
 					    feather.util.mkdir(_path + 'widget/' + modulename);
-					    feather.util.write(_path + 'deploy/local.js', feather.util.read(vendor + 'deploy.js'));
-					    feather.util.write(_path + 'deploy/receiver.php', feather.util.read(vendor + 'receiver.php'));
+					    feather.util.write(confPath + 'pack.json', '{}');
+						feather.util.write(confPath + 'rewrite.js', feather.util.read(vendor + 'rewrite.js'));
+					    feather.util.write(confPath + 'deploy/local.js', feather.util.read(vendor + 'deploy.js'));
+					    feather.util.write(confPath + 'deploy/receiver.php', feather.util.read(vendor + 'receiver.php'));
 						rl.close();
 					}else{
 						configStep();

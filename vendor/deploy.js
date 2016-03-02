@@ -2,7 +2,7 @@
 /*
 module.exports = {
 	from: '/static',
-	to: '../../abc',
+	to: '../abc',	//to的路径，永远都相对于当前项目的根目录
 	subOnly: true
 }
 */
@@ -27,5 +27,5 @@ module.exports = [
 */
 
 module.exports = {
-	to: '../../' + feather.config.get('project.name')
+	to: '../' + feather.config.get('project.name') //to的路径，永远都相对于当前项目的根目录
 };
