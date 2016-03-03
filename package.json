@@ -1,7 +1,7 @@
 {
   "name": "feather2-command-init",
   "version": "1.0.0",
-  "description": "",
+  "description": "feather2.0创建项目脚手架",
   "main": "init.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
