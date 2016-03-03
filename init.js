@@ -93,9 +93,15 @@ exports.register = function(commander){
 					    feather.util.mkdir(_path + 'components');
 					    feather.util.mkdir(_path + 'widget/' + modulename);
 					    feather.util.write(confPath + 'pack.json', '{}');
-						feather.util.write(confPath + 'rewrite.js', feather.util.read(vendor + 'rewrite.js'));
+						feather.util.write(confPath + 'rewrite.php', feather.util.read(vendor + 'rewrite.php'));
 					    feather.util.write(confPath + 'deploy/local.js', feather.util.read(vendor + 'deploy.js'));
 					    feather.util.write(confPath + 'deploy/receiver.php', feather.util.read(vendor + 'receiver.php'));
+
+					    if(config['project.mode'] == 'php'){
+					    	feather.util.mkdir(_path + 'plugins/');
+					    	feather.util.write(confPath + 'compatible.php', '<?php\r\n//php兼容文件\r\n//error_reporting(E_ALL & ~E_NOTICE);');
+					    }
+
 						rl.close();
 					}else{
 						configStep();
