@@ -10,10 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/feather-team/feather2-command-init.git"
   },
-  "author": "jsyczhanghao@sina.com",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/feather-team/feather2-command-init/issues"
-  },
-  "homepage": "https://github.com/feather-team/feather2-command-init#readme"
+  "author": {
+    "name": "jsyczhanghao@sina.com"
+  }
 }

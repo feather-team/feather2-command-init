@@ -81,8 +81,10 @@ exports.register = function(commander){
 					    feather.util.write(_path + 'feather-conf.js', conf);
 						feather.util.mkdir(_path + 'page/' + modulename);
 
+						var suffix = config['template.suffix'];
+
 					    if(!modulename || modulename == 'common'){
-					    	feather.util.write(_path + 'index.' + config['template.suffix'], feather.util.read(vendor + 'index.html'));
+					    	feather.util.write(_path + 'index.' + suffix, feather.util.read(vendor + 'index.html'));
 					    	feather.util.write(_path + 'test/_global_.php', feather.util.read(vendor + 'global.php'));
 					    	feather.util.write(_path + 'test/index.php', feather.util.read(vendor + 'test.php'));
 					    }else{
@@ -100,6 +102,11 @@ exports.register = function(commander){
 					    if(config['project.mode'] == 'php'){
 					    	feather.util.mkdir(_path + 'plugins/');
 					    	feather.util.write(confPath + 'compatible.php', '<?php\r\n//php兼容文件\r\n//error_reporting(E_ALL & ~E_NOTICE);');
+
+					    	var local = feather.util.read(vendor + 'engine.local', true), online = feather.util.read(vendor + 'engine.online', true);
+
+					    	feather.util.write(confPath + 'engine/local.php', local.replace(/#suffix#/, suffix));
+					    	feather.util.write(confPath + 'engine/online.php', online.replace(/#suffix#/, suffix));
 					    }
 
 						rl.close();
