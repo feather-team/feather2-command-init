@@ -76,38 +76,22 @@ exports.register = function(commander){
 					    }
 
 					    var modulename = config['project.modulename'], vendor = __dirname + '/vendor/';
-					    var confPath = _path + 'conf/';
-
+					    
 					    feather.util.write(_path + 'feather-conf.js', conf);
 						feather.util.mkdir(_path + 'page/' + modulename);
 
-						var suffix = config['template.suffix'];
-
 					    if(!modulename || modulename == 'common'){
-					    	feather.util.write(_path + 'index.' + suffix, feather.util.read(vendor + 'index.html'));
-					    	feather.util.write(_path + 'test/_global_.php', feather.util.read(vendor + 'global.php'));
-					    	feather.util.write(_path + 'test/index.php', feather.util.read(vendor + 'test.php'));
+					    	feather.util.write(_path + 'index.' + config['template.suffix'], feather.util.read(vendor + 'index.html'));
+					    	feather.util.write(_path + 'data/_global_.php', feather.util.read(vendor + 'global.php'));
+					    	feather.util.write(_path + 'data/index.php', feather.util.read(vendor + 'data.php'));
 					    }else{
-					    	feather.util.mkdir(_path + 'test');
+					    	feather.util.mkdir(_path + 'data');
 					    }
 					    
 					    feather.util.mkdir(_path + 'static/' + modulename);
 					    feather.util.mkdir(_path + 'components');
 					    feather.util.mkdir(_path + 'widget/' + modulename);
-					    feather.util.write(confPath + 'pack.json', '{}');
-						feather.util.write(confPath + 'rewrite.php', feather.util.read(vendor + 'rewrite.php'));
-					    feather.util.write(confPath + 'deploy/local.js', feather.util.read(vendor + 'deploy.js'));
-					    feather.util.write(confPath + 'deploy/receiver.php', feather.util.read(vendor + 'receiver.php'));
-
-					    if(config['project.mode'] == 'php'){
-					    	feather.util.mkdir(_path + 'plugins/');
-					    	feather.util.write(confPath + 'compatible.php', '<?php\r\n//php兼容文件\r\n//error_reporting(E_ALL & ~E_NOTICE);');
-
-					    	var local = feather.util.read(vendor + 'engine.local', true), online = feather.util.read(vendor + 'engine.online', true);
-
-					    	feather.util.write(confPath + 'engine/local.php', local.replace(/#suffix#/, suffix));
-					    	feather.util.write(confPath + 'engine/online.php', online.replace(/#suffix#/, suffix));
-					    }
+						exports.create2Has(_path, config);					    	
 
 						rl.close();
 					}else{
@@ -120,3 +104,32 @@ exports.register = function(commander){
 		    
 		});
 };
+
+function writeIfNotExists(path, content){
+	if(!feather.util.exists(path)){
+		feather.util.write(path, content);
+	}
+}
+
+exports.create2Has = function(projectDir, config){
+	projectDir += '/';
+
+	var suffix = config['template.suffix'], confPath = projectDir + 'conf/';
+	var vendor = __dirname + '/vendor/';
+
+	writeIfNotExists(projectDir + 'test/index.' + suffix, '此目录下所有目录仅供开发阶段进行测试使用，非预览模式不会产出');
+	writeIfNotExists(confPath + 'pack.json', '{}');
+	writeIfNotExists(confPath + 'rewrite.php', feather.util.read(vendor + 'rewrite.php'));
+    writeIfNotExists(confPath + 'deploy/local.js', feather.util.read(vendor + 'deploy.js'));
+    writeIfNotExists(confPath + 'deploy/receiver.php', feather.util.read(vendor + 'receiver.php'));
+
+    if(config['project.mode'] == 'php'){
+    	feather.util.mkdir(projectDir + 'plugins/');
+    	writeIfNotExists(confPath + 'compatible.php', '<?php\r\n//php兼容文件\r\n//error_reporting(E_ALL & ~E_NOTICE);');
+
+    	var local = feather.util.read(vendor + 'engine.local', true), online = feather.util.read(vendor + 'engine.online', true);
+
+    	writeIfNotExists(confPath + 'engine/local.php', local.replace(/#suffix#/, suffix));
+    	writeIfNotExists(confPath + 'engine/online.php', online.replace(/#suffix#/, suffix));
+    }
+}
