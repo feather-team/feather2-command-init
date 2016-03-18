@@ -5,14 +5,7 @@ return array(
 	'templateDir' => __DIR__,	//模版目录，当前目录，一般不需要修改
 	'suffix' => '#suffix#',	//模版后缀
 	'tempDir' => '',	//模版引擎临时文件存放目录，可存放一切插件所产生的临时文件，设置此目录，模版引擎出错信息也可以更加清晰，方便调试
-	'systemPlugins' => array(
-		//此插件必须存在，否则服务器端无法正常读取静态资源信息
-		'autoload_static' => array(
-           'domain' => '',
-           'combo' => array(
-           		'level' => -1,	//-1不开启 0为零散文件合并，1为所有文件合并，包括已pack的文件
-           		'onlySameBaseUrl' => false  //是否只合并同目录的文件，应对cssA2R配置
-           	)
-        ),
-	)
+	'systemPlugins' => array(),
+	//线上域名，此处只可设置一个域名，如需要设置多个域名，则需要通过设置文件domain属性来指定，并需要调用$view->set('自己定义的域名的key', '域名的值得');
+	'staticDomain' => ''	
 );
