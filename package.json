@@ -12,5 +12,15 @@
   },
   "author": {
     "name": "jsyczhanghao@sina.com"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "readmeFilename": "README.md",
+  "gitHead": "c804c30f492d57b9919d659e09197d7a4733181c",
+  "bugs": {
+    "url": "https://github.com/feather-team/feather2-command-init/issues"
+  },
+  "homepage": "https://github.com/feather-team/feather2-command-init#readme",
+  "_id": "feather2-command-init@1.0.1",
+  "_shasum": "7158c25ff2bb9d64613582552a2725828cc31ffc",
+  "_from": "feather2-command-init@>=1.0.0 <1.1.0"
 }

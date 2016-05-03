@@ -76,17 +76,21 @@ exports.register = function(commander){
 					    }
 
 					    var modulename = config['project.modulename'], vendor = __dirname + '/vendor/';
-					    
+					    var phpMode = config['project.mode'] == 'php';
+
 					    feather.util.write(_path + 'feather-conf.js', conf);
 						feather.util.mkdir(_path + 'page/' + modulename);
+						feather.util.mkdir(_path + 'data');
 
-					    if(!modulename || modulename == 'common'){
-					    	feather.util.write(_path + 'index.' + config['template.suffix'], feather.util.read(vendor + 'index.html'));
-					    	feather.util.write(_path + 'data/_global_.php', feather.util.read(vendor + 'global.php'));
-					    	feather.util.write(_path + 'data/index.php', feather.util.read(vendor + 'data.php'));
-					    }else{
-					    	feather.util.mkdir(_path + 'data');
-					    }
+						if(!modulename || modulename == 'common'){
+							if(phpMode){
+								feather.util.write(_path + 'index.' + config['template.suffix'], feather.util.read(vendor + 'index.html'));
+					    		feather.util.write(_path + 'data/_global_.php', feather.util.read(vendor + 'global.php'));
+					    		feather.util.write(_path + 'data/index.php', feather.util.read(vendor + 'data.php'));
+							}else{
+								feather.util.write(_path + 'index.' + config['template.suffix'], feather.util.read(vendor + 'index.basic.html'));
+							}
+						}
 					    
 					    feather.util.mkdir(_path + 'static/' + modulename);
 					    feather.util.mkdir(_path + 'components');
@@ -119,11 +123,12 @@ exports.create2Has = function(projectDir, config){
 
 	writeIfNotExists(projectDir + 'test/index.' + suffix, '此目录下所有目录仅供开发阶段进行测试使用，非预览模式不会产出');
 	writeIfNotExists(confPath + 'pack.json', '{}');
-	writeIfNotExists(confPath + 'rewrite.php', feather.util.read(vendor + 'rewrite.php'));
     writeIfNotExists(confPath + 'deploy/local.js', feather.util.read(vendor + 'deploy.js'));
     writeIfNotExists(confPath + 'deploy/receiver.php', feather.util.read(vendor + 'receiver.php'));
 
     if(config['project.mode'] == 'php'){
+    	writeIfNotExists(confPath + 'rewrite.php', feather.util.read(vendor + 'rewrite.php'));
+
     	feather.util.mkdir(projectDir + 'plugins/');
     	writeIfNotExists(confPath + 'compatible.php', '<?php\r\n//php兼容文件\r\n//error_reporting(E_ALL & ~E_NOTICE);');
 

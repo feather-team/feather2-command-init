@@ -2,7 +2,8 @@ feather.config.merge({
 	project: {
 		name: '${project.name}',
 		modulename: '${project.modulename}',
-		charset: '${project.charset}'
+		charset: '${project.charset}',
+		mode: '${project.mode}'
 	},
 
 	template: {
