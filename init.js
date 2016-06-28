@@ -76,20 +76,15 @@ exports.register = function(commander){
 					    }
 
 					    var modulename = config['project.modulename'], vendor = __dirname + '/vendor/';
-					    var phpMode = config['project.mode'] == 'php';
 
 					    feather.util.write(_path + 'feather-conf.js', conf);
 						feather.util.mkdir(_path + 'page/' + modulename);
 						feather.util.mkdir(_path + 'data');
 
 						if(!modulename || modulename == 'common'){
-							if(phpMode){
-								feather.util.write(_path + 'index.' + config['template.suffix'], feather.util.read(vendor + 'index.html'));
-					    		feather.util.write(_path + 'data/_global_.php', feather.util.read(vendor + 'global.php'));
-					    		feather.util.write(_path + 'data/index.php', feather.util.read(vendor + 'data.php'));
-							}else{
-								feather.util.write(_path + 'index.' + config['template.suffix'], feather.util.read(vendor + 'index.basic.html'));
-							}
+							feather.util.write(_path + 'index.' + config['template.suffix'], feather.util.read(vendor + 'index.html'));
+					    	feather.util.write(_path + 'data/_global_.php', feather.util.read(vendor + 'global.php'));
+					    	feather.util.write(_path + 'data/index.php', feather.util.read(vendor + 'data.php'));
 						}
 					    
 					    feather.util.mkdir(_path + 'static/' + modulename);
@@ -132,8 +127,6 @@ exports.create2Has = function(projectDir, config){
 	feather.util.mkdir(projectDir + 'plugins/');
 	writeIfNotExists(confPath + 'compatible.php', '<?php\r\n//php兼容文件\r\n//error_reporting(E_ALL & ~E_NOTICE);');
 
-	feather.util.mkdir(projectDir + 'plugins/');
-	
 	var modulename = config['project.modulename'];
 
 	if(modulename == 'common' || !modulename){
