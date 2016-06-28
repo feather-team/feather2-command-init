@@ -2,12 +2,12 @@ feather.config.merge({
 	project: {
 		name: '${project.name}',
 		modulename: '${project.modulename}',
-		charset: '${project.charset}',
-		mode: '${project.mode}'
+		charset: '${project.charset}'
 	},
 
 	template: {
-		suffix: '${template.suffix}'
+		suffix: '${template.suffix}',
+		engine: '${template.engine}'
 	},
 
 	statics: '${statics}'

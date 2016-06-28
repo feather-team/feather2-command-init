@@ -38,9 +38,9 @@ exports.register = function(commander){
 					_default: 'utf-8'
 				},
 				{
-					name: 'project.mode',
-					desc: 'project mode',
-					_default: 'php'
+					name: 'template.engine',
+					desc: 'template engine',
+					_default: 'feather'
 				},
 				{
 					name: 'template.suffix',
@@ -98,6 +98,7 @@ exports.register = function(commander){
 						exports.create2Has(_path, config);					    	
 
 						rl.close();
+						process.exit();
 					}else{
 						configStep();
 					}
@@ -126,15 +127,19 @@ exports.create2Has = function(projectDir, config){
     writeIfNotExists(confPath + 'deploy/local.js', feather.util.read(vendor + 'deploy.js'));
     writeIfNotExists(confPath + 'deploy/receiver.php', feather.util.read(vendor + 'receiver.php'));
 
-    if(config['project.mode'] == 'php'){
-    	writeIfNotExists(confPath + 'rewrite.php', feather.util.read(vendor + 'rewrite.php'));
+    writeIfNotExists(confPath + 'rewrite.php', feather.util.read(vendor + 'rewrite.php'));
 
-    	feather.util.mkdir(projectDir + 'plugins/');
-    	writeIfNotExists(confPath + 'compatible.php', '<?php\r\n//php兼容文件\r\n//error_reporting(E_ALL & ~E_NOTICE);');
+	feather.util.mkdir(projectDir + 'plugins/');
+	writeIfNotExists(confPath + 'compatible.php', '<?php\r\n//php兼容文件\r\n//error_reporting(E_ALL & ~E_NOTICE);');
 
-    	var local = feather.util.read(vendor + 'engine.local', true), online = feather.util.read(vendor + 'engine.online', true);
+	feather.util.mkdir(projectDir + 'plugins/');
+	
+	var modulename = config['project.modulename'];
 
-    	writeIfNotExists(confPath + 'engine/local.php', local.replace(/#suffix#/, suffix));
-    	writeIfNotExists(confPath + 'engine/online.php', online.replace(/#suffix#/, suffix));
-    }
+	if(modulename == 'common' || !modulename){
+		writeIfNotExists(confPath + 'compatible.php', '<?php\r\n//php兼容文件\r\n//error_reporting(E_ALL & ~E_NOTICE);');
+		var local = feather.util.read(vendor + 'engine.local', true), online = feather.util.read(vendor + 'engine.online', true);
+		writeIfNotExists(confPath + 'engine/local.php', local.replace(/#suffix#/, suffix));
+		writeIfNotExists(confPath + 'engine/online.php', online.replace(/#suffix#/, suffix));
+	}
 }
