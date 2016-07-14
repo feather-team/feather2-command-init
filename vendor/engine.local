@@ -1,8 +1,0 @@
-<?php
-//模版引擎配置
-//此文件中出现所有路径，都相对于项目目录
-return array(
-	'templateDir' => __DIR__,	//模版目录，当前目录，一般不需要修改
-	'suffix' => '#suffix#',	//模版后缀
-	'systemPlugins' => array()
-);

@@ -14,9 +14,9 @@ exports.register = function(commander){
 				return;
 			}
 
-			var _path = process.cwd() + '/' + path + '/';
+			var root = process.cwd() + '/' + path + '/';
 
-		    if(feather.util.exists(_path)){
+		    if(feather.util.exists(root)){
 		    	feather.log.error(path + ' already exists!');
 		    	return;
 		    }
@@ -29,18 +29,9 @@ exports.register = function(commander){
 					_default: '_default'
 				},
 				{
-					name: 'project.modulename',
-					desc: 'project modulename:'
-				},
-				{
 					name: 'project.charset',
 					desc: 'project charset:',
 					_default: 'utf-8'
-				},
-				{
-					name: 'template.engine',
-					desc: 'template engine',
-					_default: 'feather'
 				},
 				{
 					name: 'template.suffix',
@@ -67,30 +58,17 @@ exports.register = function(commander){
 					config[current.name] = answer || current._default || '';
 					
 					if(!DEFAULT_PROPERTY.length){
-						feather.util.mkdir(_path);
-		    
-					    var conf = feather.util.read(__dirname + '/vendor/conf.js');
+					    var templateDir = __dirname + '/template/';
+					    var conf = feather.util.read(templateDir + 'conf.js');
 
 					    for(var i in config){
 					    	conf = conf.replace('${' + i + '}', config[i]);
 					    }
 
-					    var modulename = config['project.modulename'], vendor = __dirname + '/vendor/';
-
-					    feather.util.write(_path + 'feather-conf.js', conf);
-						feather.util.mkdir(_path + 'page/' + modulename);
-						feather.util.mkdir(_path + 'data');
-
-						if(!modulename || modulename == 'common'){
-							feather.util.write(_path + 'index.' + config['template.suffix'], feather.util.read(vendor + 'index.html'));
-					    	feather.util.write(_path + 'data/_global_.php', feather.util.read(vendor + 'global.php'));
-					    	feather.util.write(_path + 'data/index.php', feather.util.read(vendor + 'data.php'));
-						}
-					    
-					    feather.util.mkdir(_path + 'static/' + modulename);
-					    feather.util.mkdir(_path + 'components');
-					    feather.util.mkdir(_path + 'widget/' + modulename);
-						exports.create2Has(_path, config);					    	
+					    feather.util.copy(__dirname + '/vendor', root);
+					    feather.util.write(root + 'feather-conf.js', conf);
+						feather.util.write(root + 'index.' + config['template.suffix'], feather.util.read(templateDir + 'index.html'));
+						//exports.create2Has(_path, config);					    	
 
 						rl.close();
 						process.exit();
