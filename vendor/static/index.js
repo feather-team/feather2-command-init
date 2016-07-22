@@ -1,1 +1,1 @@
-console.log('sync test!');
+console.log('page index sync loaded');

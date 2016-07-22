@@ -1,3 +1,26 @@
 @widget('header/header')
-welcome !
+<link rel="stylesheet" type="text/css" href="/static/index.css" />
+<section id="main">welcome to feather2.0 ! &nbsp; <a href="javascript:" id="click">click me</a></section>
+<script>
+require.async('static/index.js');
+</script>
+@pagelet('bigrender/bigrender', 'pagelet')
+<script>
+function $(id){
+    return document.getElementById(id);
+}
+
+//可使用jquery的html方法代替
+require.async('static/pagelet.js', function(Pagelet){
+    $('click').onclick = function(){
+        Pagelet.append($('main'), $('pagelet').value);
+    };
+
+    setTimeout(function(){
+        Pagelet.load('/pagelet/ajax/ajax.html', function(data){
+            Pagelet.append($('main'), data);
+        });
+    }, 6000);
+});
+</script>
 @widget('footer/footer')
