@@ -66,9 +66,8 @@ exports.register = function(commander){
 					    }
 
 					    feather.util.copy(__dirname + '/vendor', root);
-					    feather.util.write(root + 'feather-conf.js', conf);
-						feather.util.write(root + 'index.' + config['template.suffix'], feather.util.read(templateDir + 'index.html'));
-						//exports.create2Has(_path, config);					    	
+					    feather.util.write(root + '/conf/conf.js', conf);
+						feather.util.write(root + 'index.' + config['template.suffix'], feather.util.read(templateDir + 'index.html'));			    	
 
 						rl.close();
 						process.exit();
@@ -82,35 +81,3 @@ exports.register = function(commander){
 		    
 		});
 };
-
-function writeIfNotExists(path, content){
-	if(!feather.util.exists(path)){
-		feather.util.write(path, content);
-	}
-}
-
-exports.create2Has = function(projectDir, config){
-	projectDir += '/';
-
-	var suffix = config['template.suffix'], confPath = projectDir + 'conf/';
-	var vendor = __dirname + '/vendor/';
-
-	writeIfNotExists(projectDir + 'test/index.' + suffix, '此目录下所有目录仅供开发阶段进行测试使用，非预览模式不会产出');
-	writeIfNotExists(confPath + 'pack.json', '{}');
-    writeIfNotExists(confPath + 'deploy/local.js', feather.util.read(vendor + 'deploy.js'));
-    writeIfNotExists(confPath + 'deploy/receiver.php', feather.util.read(vendor + 'receiver.php'));
-
-    writeIfNotExists(confPath + 'rewrite.php', feather.util.read(vendor + 'rewrite.php'));
-
-	feather.util.mkdir(projectDir + 'plugins/');
-	writeIfNotExists(confPath + 'compatible.php', '<?php\r\n//php兼容文件\r\n//error_reporting(E_ALL & ~E_NOTICE);');
-
-	var modulename = config['project.modulename'];
-
-	if(modulename == 'common' || !modulename){
-		writeIfNotExists(confPath + 'compatible.php', '<?php\r\n//php兼容文件\r\n//error_reporting(E_ALL & ~E_NOTICE);');
-		var local = feather.util.read(vendor + 'engine.local', true), online = feather.util.read(vendor + 'engine.online', true);
-		writeIfNotExists(confPath + 'engine/local.php', local.replace(/#suffix#/, suffix));
-		writeIfNotExists(confPath + 'engine/online.php', online.replace(/#suffix#/, suffix));
-	}
-}
