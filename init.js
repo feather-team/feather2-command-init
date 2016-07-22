@@ -34,11 +34,6 @@ exports.register = function(commander){
 					_default: 'utf-8'
 				},
 				{
-					name: 'template.suffix',
-					desc: 'template suffix:',
-					_default: 'html'
-				},
-				{
 					name: 'statics',
 					desc: 'statics:',
 					_default: '/static'
@@ -66,8 +61,7 @@ exports.register = function(commander){
 					    }
 
 					    feather.util.copy(__dirname + '/vendor', root);
-					    feather.util.write(root + '/conf/conf.js', conf);
-						feather.util.write(root + 'index.' + config['template.suffix'], feather.util.read(templateDir + 'index.html'));			    	
+					    feather.util.write(root + '/conf/conf.js', conf);		    	
 
 						rl.close();
 						process.exit();
