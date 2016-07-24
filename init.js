@@ -24,11 +24,6 @@ exports.register = function(commander){
 		    var i = 0, config = {};
 		    var DEFAULT_PROPERTY = [
 				{
-					name: 'project.name',
-					desc: 'project name:',
-					_default: '_default'
-				},
-				{
 					name: 'project.charset',
 					desc: 'project charset:',
 					_default: 'utf-8'
